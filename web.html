@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学创蜂巢 - 大学生技能分享平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#36D399',
+                        accent: '#FF6B35',
+                        dark: '#1E293B',
+                        light: '#F8FAFC',
+                        mainBg: '#000',
+                        subColor: '#165DFF'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        slideIn: 'slideIn 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        slideIn: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(0)' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+
+            .card-hover:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px -5px rgba(22, 93, 255, 0.3), 0 10px 10px -5px rgba(22, 93, 255, 0.2);
+            }
+
+            .swiper-container {
+                width: 100%;
+                height: 400px;
+            }
+
+            .swiper-slide {
+                text-align: center;
+                font-size: 18px;
+                background: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .swiper-slide img {
+                display: block;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+</head>
+
+<body class="bg-mainBg font-sans text-light">
+    <!-- 导航栏 -->
+    <header class="fixed w-full bg-mainBg/90 backdrop-blur-sm shadow-sm z-50 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-3">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center space-x-2">
+                        <div class="w-10 h-10 bg-subColor rounded-lg flex items-center justify-center">
+                            <img src="./image/设计相关 logo1.png" alt="">
+                        </div>
+                        <span class="text-xl font-bold text-light">学创蜂巢</span>
+                    </a>
+                    <nav class="hidden md:flex ml-10 space-x-8">
+                        <a href="#home" class="text-light hover:text-subColor font-medium transition-colors">首页</a>
+                        <a href="#skills" class="text-light hover:text-subColor font-medium transition-colors">技能教学</a>
+                        <a href="#career" class="text-light hover:text-subColor font-medium transition-colors">就业指导</a>
+                        <a href="#resources" class="text-light hover:text-subColor font-medium transition-colors">学习资源</a>
+                        <a href="#community" class="text-light hover:text-subColor font-medium transition-colors">社区交流</a>
+                        <a href="#major" class="text-light hover:text-subColor font-medium transition-colors">专业介绍</a>
+                        <a href="#contests" class="text-light hover:text-subColor font-medium transition-colors">专业比赛</a>
+                        <a href="#textbooks" class="text-light hover:text-subColor font-medium transition-colors">专业教材</a>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="hidden md:block text-light hover:text-subColor transition-colors">登录</a>
+                    <a href="#" class="hidden md:block bg-subColor hover:bg-subColor/90 text-white px-4 py-2 rounded-lg transition-colors">注册</a>
+                    <button class="md:hidden text-light" id="mobile-menu-button">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden bg-mainBg border-t shadow-lg absolute w-full" id="mobile-menu">
+            <div class="container mx-auto px-4 py-3 space-y-3">
+                <a href="#home" class="block py-2 text-light hover:text-subColor font-medium">首页</a>
+                <a href="#skills" class="block py-2 text-light hover:text-subColor font-medium">技能教学</a>
+                <a href="#career" class="block py-2 text-light hover:text-subColor font-medium">就业指导</a>
+                <a href="#resources" class="block py-2 text-light hover:text-subColor font-medium">学习资源</a>
+                <a href="#community" class="block py-2 text-light hover:text-subColor font-medium">社区交流</a>
+                <a href="#major" class="block py-2 text-light hover:text-subColor font-medium">专业介绍</a>
+                <a href="#contests" class="block py-2 text-light hover:text-subColor font-medium">专业比赛</a>
+                <a href="#textbooks" class="block py-2 text-light hover:text-subColor font-medium">专业教材</a>
+                <div class="flex space-x-4 pt-2">
+                    <a href="#" class="flex-1 text-center border border-gray-300 rounded-lg py-2 hover:bg-gray-50 transition-colors">登录</a>
+                    <a href="#" class="flex-1 text-center bg-subColor text-white rounded-lg py-2 hover:bg-subColor/90 transition-colors">注册</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section id="home" class="pt-28 pb-16 md:pt-32 md:pb-20 bg-gradient-to-br from-subColor/5 to-secondary/5">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img  class= "yyz" src="https://picsum.photos/id/180/600/400" alt="学生学习场景">
+                    </div>
+                    
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="flex flex-col md:flex-row items-center mt-10">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-light leading-tight mb-4">
+                        汇聚学生智慧<br>
+                        <span class="text-subColor">助力成长蜕变</span>
+                    </h1>
+                    <p class="text-light/80 text-lg mb-8 max-w-lg">
+                        学创蜂巢是一个专注于大学生技能提升与职业发展的平台，在这里你可以分享技能、获取经验、连接资源，为未来就业创业做好充分准备。
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#skills" class="bg-subColor hover:bg-subColor/90 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg hover:shadow-subColor/20 flex items-center">
+                            <span>探索课程</span>
+                            <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="#community" class="bg-white hover:bg-gray-50 text-subColor border border-subColor px-6 py-3 rounded-lg font-medium transition-all shadow-md">
+                            加入社区
+                        </a>
+                    </div>
+                    <div class="flex items-center mt-10 space-x-6">
+                        <div class="flex -space-x-2">
+                            <img src="https://picsum.photos/id/1001/40/40" alt="用户头像" class="w-10 h-10 rounded-full border-2 border-white">
+                            <img src="https://picsum.photos/id/1002/40/40" alt="用户头像" class="w-10 h-10 rounded-full border-2 border-white">
+                            <img src="https://picsum.photos/id/1003/40/40" alt="用户头像" class="w-10 h-10 rounded-full border-2 border-white">
+                            <div class="w-10 h-10 rounded-full bg-subColor/10 border-2 border-white flex items-center justify-center text-subColor text-xs font-medium">
+                                100+
+                            </div>
+                        </div>
+                        <div class="text-sm text-light/80">
+                            <span class="font-semibold text-subColor">10000+</span> 同学已加入
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <div class="relative z-10 bg-white rounded-xl shadow-2xl overflow-hidden">
+                        <img src="https://picsum.photos/id/180/600/400" alt="学生学习场景" class="w-full h-auto">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                                    <i class="fa fa-play text-white"></i>
+                                </div>
+                                <h3 class="text-white font-medium">Python数据分析实战课程</h3>
+                            </div>
+                            <div class="flex items-center text-white/80 text-sm">
+                                <span>由计算机学院 李明学长 分享</span>
+                                <span class="mx-2">•</span>
+                                <span>246人已学习</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-secondary/20 rounded-full blur-2xl -z-10"></div>
+                    <div class="absolute -top-6 -left-6 w-40 h-40 bg-subColor/20 rounded-full blur-3xl -z-10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 统计数据 -->
+    <section class="py-12 bg-mainBg">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center p-6 rounded-xl bg-subColor/5 card-hover">
+                    <div class="text-subColor text-4xl font-bold mb-2">100+</div>
+                    <div class="text-light/80">合作高校</div>
+                </div>
+                <div class="text-center p-6 rounded-xl bg-secondary/5 card-hover">
+                    <div class="text-secondary text-4xl font-bold mb-2">500+</div>
+                    <div class="text-light/80">企业合作</div>
+                </div>
+                <div class="text-center p-6 rounded-xl bg-accent/5 card-hover">
+                    <div class="text-accent text-4xl font-bold mb-2">10000+</div>
+                    <div class="text-light/80">优质课程</div>
+                </div>
+                <div class="text-center p-6 rounded-xl bg-dark/5 card-hover">
+                    <div class="text-light text-4xl font-bold mb-2">100000+</div>
+                    <div class="text-light/80">活跃用户</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能教学板块 -->
+    <section id="skills" class="py-16 bg-mainBg animate-slideIn">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-light mb-4">技能教学</h2>
+                <p class="text-light/80 max-w-2xl mx-auto">
+                    汇聚本校优秀学生分享的技能课程，覆盖编程、设计、语言、职场等多个领域，助你快速掌握实用技能
+                </p>
+            </div>
+
+            <!-- 分类标签 -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button class="px-4 py-2 rounded-full bg-subColor text-white font-medium">全部</button>
+                <button class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"><p style="color: black;">编程开发</p></button>
+                <button class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"><p style="color: black;">设计创意</p></button>
+                <button class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"><p style="color: black;">语言学习</p></button>
+                <button class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"><p style="color: black;">职场技能</p></button>
+                <button class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"><p style="color: black;">创业经验</p></button>
+            </div>
+
+            <!-- 视频课程展示 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 课程卡片1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/0/600/400" alt="Python基础到进阶" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3 bg-subColor text-white text-xs font-medium px-2 py-1 rounded">
+                            编程开发
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-black/70 text-white text-xs font-medium px-2 py-1 rounded">
+                            42分钟
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">Python基础到进阶全掌握</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            由计算机学院大二学生王同学分享，从Python基础语法讲起，涵盖常用库的使用及项目实战。
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://picsum.photos/id/1005/40/40" alt="讲师头像" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-sm text-gray-600">王同学</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fa fa-eye mr-1"></i> 248
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/160/600/400" alt="UI设计入门" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3 bg-accent text-white text-xs font-medium px-2 py-1 rounded">
+                            设计创意
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-black/70 text-white text-xs font-medium px-2 py-1 rounded">
+                            56分钟
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">UI设计入门到精通</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            艺术设计学院李同学分享，从设计原则、工具使用到完整项目实战，助你快速掌握UI设计技能。
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://picsum.photos/id/1006/40/40" alt="讲师头像" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-sm text-gray-600">李同学</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fa fa-eye mr-1"></i> 186
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/201/600/400" alt="英语面试技巧" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3 bg-secondary text-white text-xs font-medium px-2 py-1 rounded">
+                            语言学习
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-black/70 text-white text-xs font-medium px-2 py-1 rounded">
+                            38分钟
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">英语面试技巧全解析</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            外国语学院张同学分享，针对外企面试常见问题，提供专业回答模板和发音技巧指导。
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://picsum.photos/id/1007/40/40" alt="讲师头像" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-sm text-gray-600">张同学</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fa fa-eye mr-1"></i> 312
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片4 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/180/600/400" alt="数据分析" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3 bg-subColor text-white text-xs font-medium px-2 py-1 rounded">
+                            编程开发
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-black/70 text-white text-xs font-medium px-2 py-1 rounded">
+                            72分钟
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">Excel数据分析实战</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            商学院刘同学分享，从Excel基础函数到高级数据分析技巧，附带大量案例练习。
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://picsum.photos/id/1008/40/40" alt="讲师头像" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-sm text-gray-600">刘同学</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fa fa-eye mr-1"></i> 276
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片5 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/26/600/400" alt="PPT制作" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3 bg-accent text-white text-xs font-medium px-2 py-1 rounded">
+                            职场技能
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-black/70 text-white text-xs font-medium px-2 py-1 rounded">
+                            45分钟
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">商务PPT设计与制作</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            管理学院陈同学分享，从PPT结构设计到视觉美化，教你制作专业商务演示文稿。
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://picsum.photos/id/1009/40/40" alt="讲师头像" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-sm text-gray-600">陈同学</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fa fa-eye mr-1"></i> 205
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 课程卡片6 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow card-hover">
+                    <div class="relative">
+                        <img src="https://picsum.photos/id/20/600/400" alt="创业经验" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 right-3 bg-secondary text-white text-xs font-medium px-2 py-1 rounded">
+                            创业经验
+                        </div>
+                        <div class="absolute bottom-3 right-3 bg-black/70 text-white text-xs font-medium px-2 py-1 rounded">
+                            68分钟
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-2">大学生创业实战经验分享</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">
+                            本校创业成功校友赵学长分享，从项目选择、团队组建到融资经验，全方位解析创业过程。
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="https://picsum.photos/id/1010/40/40" alt="讲师头像" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-sm text-gray-600">赵学长</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-600">
+                                <i class="fa fa-eye mr-1"></i> 345
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="#" class="inline-flex items-center text-subColor font-medium hover:underline">
+                    查看更多课程
+                    <i class="fa fa-long-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 就业指导板块 -->
+    <section id="career" class="py-16 bg-gray-50 animate-slideIn">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">就业指导</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    提供全方位的就业指导服务，从简历优化到面试技巧，从职业规划到企业内推，助你顺利开启职业之路
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- 左侧：就业资源 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <h3 class="text-xl font-bold text-dark mb-6 flex items-center">
+                        <i class="fa fa-briefcase text-subColor mr-2"></i> 就业资源
+                    </h3>
+
+                    <!-- 企业宣讲会 -->
+                    <div class="mb-6 pb-6 border-b border-gray-100">
+                        <h4 class="font-bold text-gray-800 mb-4">近期企业宣讲会</h4>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-lg p-4 flex items-center">
+                                <div class="w-12 h-12 rounded bg-subColor/10 flex items-center justify-center mr-4">
+                                    <i class="fa fa-building text-subColor"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-800">阿里巴巴校园招聘宣讲会</h5>
+                                    <p class="text-sm text-gray-600">时间：6月15日 14:00-16:00</p>
+                                    <p class="text-sm text-gray-600">地点：本校就业指导中心报告厅</p>
+                                </div>
+                                <button class="text-subColor text-sm font-medium">预约</button>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4 flex items-center">
+                                <div class="w-12 h-12 rounded bg-subColor/10 flex items-center justify-center mr-4">
+                                    <i class="fa fa-building text-subColor"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="font-medium text-gray-800">腾讯科技产品经理专场</h5>
+                                    <p class="text-sm text-gray-600">时间：6月18日 10:00-12:00</p>
+                                    <p class="text-sm text-gray-600">地点：本校计算机学院B栋301</p>
+                                </div>
+                                <button class="text-subColor text-sm font-medium">预约</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 实习岗位 -->
+                    <div class="mb-6 pb-6 border-b border-gray-100">
+                        <h4 class="font-bold text-gray-800 mb-4">热门实习岗位</h4>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 class="font-medium text-gray-800">产品运营实习生</h5>
+                                    <span class="bg-subColor/10 text-subColor text-xs px-2 py-1 rounded">字节跳动</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">北京 | 3个月 | 200-300元/天</p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">数据分析</span>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">用户增长</span>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">产品优化</span>
+                                </div>
+                                <button class="text-sm bg-subColor text-white px-3 py-1 rounded hover:bg-subColor/90 transition-colors">
+                                    立即申请
+                                </button>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h5 class="font-medium text-gray-800">前端开发实习生</h5>
+                                    <span class="bg-subColor/10 text-subColor text-xs px-2 py-1 rounded">百度</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">上海 | 6个月 | 250-350元/天</p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Vue.js</span>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">React</span>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">TypeScript</span>
+                                </div>
+                                <button class="text-sm bg-subColor text-white px-3 py-1 rounded hover:bg-subColor/90 transition-colors">
+                                    立即申请
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 职业测评 -->
+                    <div>
+                        <h4 class="font-bold text-gray-800 mb-4">职业测评</h4>
+                        <div class="bg-gradient-to-r from-subColor/90 to-subColor rounded-xl p-5 text-white">
+                            <h5 class="font-medium mb-2">你适合什么职业？</h5>
+                            <p class="text-white/80 text-sm mb-4">完成我们的职业测评，获取个性化职业发展建议</p>
+                            <button class="bg-white text-subColor px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors">
+                                开始测评
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧：简历与面试指导 -->
+                <div class="bg-white rounded-xl shadow-lg p-8 card-hover">
+                    <h3 class="text-xl font-bold text-dark mb-6 flex items-center">
+                        <i class="fa fa-file-text-o text-subColor mr-2"></i> 简历与面试指导
+                    </h3>
+
+                    <!-- 简历优化 -->
+                    <div class="mb-8">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-subColor/10 flex items-center justify-center mr-3">
+                                <i class="fa fa-file-text text-subColor"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800">智能简历评估</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            上传简历，我们的AI系统将为你提供专业评估和优化建议，帮助你打造脱颖而出的简历
+                        </p>
+                        <div class="border-2 border-dashed border-gray-200 rounded-lg p-6 text-center hover:border-subColor transition-colors cursor-pointer">
+                            <i class="fa fa-cloud-upload text-gray-400 text-2xl mb-2"></i>
+                            <p class="text-gray-500 text-sm">点击上传简历文件或拖拽至此处</p>
+                            <p class="text-gray-400 text-xs mt-1">支持PDF、Word格式，最大5MB</p>
+                        </div>
+                    </div>
+
+                    <!-- 面试技巧 -->
+                    <div class="mb-8">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-subColor/10 flex items-center justify-center mr-3">
+                                <i class="fa fa-comments text-subColor"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800">面试技巧课程</h4>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-gray-50 rounded-lg p-3 flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-subColor/10 flex items-center justify-center mr-3">
+                                    <i class="fa fa-play text-subColor text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="text-sm font-medium text-gray-800">常见面试问题及回答技巧</h5>
+                                    <p class="text-xs text-gray-500">15分钟</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-3 flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-subColor/10 flex items-center justify-center mr-3">
+                                    <i class="fa fa-play text-subColor text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="text-sm font-medium text-gray-800">群面实战技巧与案例分析</h5>
+                                    <p class="text-xs text-gray-500">20分钟</p>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-3 flex items-center">
+                                <div class="w-8 h-8 rounded-full bg-subColor/10 flex items-center justify-center mr-3">
+                                    <i class="fa fa-play text-subColor text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h5 class="text-sm font-medium text-gray-800">技术面试准备与常见问题</h5>
+                                    <p class="text-xs text-gray-500">25分钟</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 模拟面试 -->
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-subColor/10 flex items-center justify-center mr-3">
+                                <i class="fa fa-video-camera text-subColor"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800">在线模拟面试</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">
+                            与专业面试官进行一对一视频模拟面试，获取详细反馈和改进建议
+                        </p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                <div class="w-12 h-12 rounded-full bg-subColor/10 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fa fa-briefcase text-subColor"></i>
+                                </div>
+                                <h5 class="text-sm font-medium text-gray-800">普通岗位面试</h5>
+                                <p class="text-xs text-gray-500 mt-1">19.9元/次</p>
+                                <button class="text-xs bg-subColor text-white px-3 py-1 rounded mt-2 hover:bg-subColor/90 transition-colors">
+                                    预约
+                                </button>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4 text-center">
+                                <div class="w-12 h-12 rounded-full bg-subColor/10 flex items-center justify-center mx-auto mb-2">
+                                    <i class="fa fa-code text-subColor"></i>
+                                </div>
+                                <h5 class="text-sm font-medium text-gray-800">技术岗位面试</h5>
+                                <p class="text-xs text-gray-500 mt-1">29.9元/次</p>
+                                <button class="text-xs bg-subColor text-white px-3 py-1 rounded mt-2 hover:bg-subColor/90 transition-colors">
+                                    预约
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学习资源板块 -->
+    <section id="resources" class="py-16 bg-mainBg animate-slideIn">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-light mb-4">学习资源</h2>
+                <p class="text-light/80 max-w-2xl mx-auto">
+                    汇聚本校学生分享的各类学习资源，包括课件、笔记、试题、项目源码等，助你高效学习
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 课件笔记 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow card-hover">
+                    <div class="w-14 h-14 rounded-full bg-subColor/10 flex items-center justify-center mb-4">
+                        <i class="fa fa-book text-subColor text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">课件笔记</h3>
+                    <p class="text-gray-600 mb-4">
+                        收集整理各专业课程的课件、重点笔记、复习资料，帮助你掌握课堂知识，轻松应对考试
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fa fa-file-pdf-o text-red-500 mr-2"></i>
+                                <span>高等数学课件</span>
+                            </div>
+                            <span class="text-xs text-gray-600">下载</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fa fa-file-pdf-o text-red-500 mr-2"></i>
+                                <span>大学英语笔记</span>
+                            </div>
+                            <span class="text-xs text-gray-600">下载</span>
+                        </div>
+                    </div>
+                    <a href="#" class="text-subColor font-medium hover:underline">查看更多</a>
+                </div>
+
+                <!-- 试题资料 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow card-hover">
+                    <div class="w-14 h-14 rounded-full bg-subColor/10 flex items-center justify-center mb-4">
+                        <i class="fa fa-question-circle text-subColor text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">试题资料</h3>
+                    <p class="text-gray-600 mb-4">
+                        提供各专业历年考试真题、模拟试题，帮助你熟悉考试题型，提高应试能力
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fa fa-file-pdf-o text-red-500 mr-2"></i>
+                                <span>计算机专业真题</span>
+                            </div>
+                            <span class="text-xs text-gray-600">下载</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fa fa-file-pdf-o text-red-500 mr-2"></i>
+                                <span>经济学模拟试题</span>
+                            </div>
+                            <span class="text-xs text-gray-600">下载</span>
+                        </div>
+                    </div>
+                    <a href="#" class="text-subColor font-medium hover:underline">查看更多</a>
+                </div>
+
+                <!-- 项目源码 -->
+                <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow card-hover">
+                    <div class="w-14 h-14 rounded-full bg-subColor/10 flex items-center justify-center mb-4">
+                        <i class="fa fa-code text-subColor text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">项目源码</h3>
+                    <p class="text-gray-600 mb-4">
+                        分享各专业优秀项目源码，助你学习实践，提升编程和项目开发能力
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fa fa-github text-gray-600 mr-2"></i>
+                                <span>Python数据分析项目</span>
+                            </div>
+                            <span class="text-xs text-gray-600">下载</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fa fa-github text-gray-600 mr-2"></i>
+                                <span>Java Web开发项目</span>
+                            </div>
+                            <span class="text-xs text-gray-600">下载</span>
+                        </div>
+                    </div>
+                    <a href="#" class="text-subColor font-medium hover:underline">查看更多</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 专业介绍板块 -->
+    <section id="major" class="py-16 bg-gray-50 animate-slideIn">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">专业介绍</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    为你介绍本校各个专业的详细信息，包括专业课程、就业方向等
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 专业1 -->
+                <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                    <h3 class="text-xl font-bold text-dark mb-4">计算机科学与技术</h3>
+                    <p class="text-gray-600 mb-4">
+                        计算机科学与技术专业培养具有扎实的计算机理论基础和较强的实践能力，能够在计算机领域从事科学研究、技术开发、应用和管理等工作的高级专门人才。专业课程包括数据结构、操作系统、编程语言等。就业方向广泛，可在互联网企业、科研机构等单位工作。
+                    </p>
+                    <a href="#" class="text-subColor font-medium hover:underline">了解更多</a>
+                </div>
+
+                <!-- 专业2 -->
+                <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                    <h3 class="text-xl font-bold text-dark mb-4">经济学</h3>
+                    <p class="text-gray-600 mb-4">
+                        经济学专业培养具备扎实的经济学理论基础和较强的经济分析能力，能够在政府部门、金融机构、企业等单位从事经济分析、预测、规划和管理等工作的高级专门人才。专业课程包括微观经济学、宏观经济学、计量经济学等。就业前景广阔，可在银行、证券等行业就业。
+                    </p>
+                    <a href="#" class="text-subColor font-medium hover:underline">了解更多</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 专业相关比赛和评价板块 -->
+    <section id="contests" class="py-16 bg-mainBg animate-slideIn">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-light mb-4">专业相关比赛和评价</h2>
+                <p class="text-light/80 max-w-2xl mx-auto">
+                    为你提供各专业相关的比赛信息和学生评价，助你了解专业动态和发展方向
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 比赛1 -->
+                <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                    <h3 class="text-xl font-bold text-dark mb-4">全国大学生计算机设计竞赛</h3>
+                    <p class="text-gray-600 mb-4">
+                        该竞赛旨在激发学生学习计算机知识和技能的兴趣和潜能，提高学生运用信息技术解决实际问题的综合实践能力，培养学生的创新意识、团队合作精神和理论联系实际的学风。众多学生参与其中并获得了宝贵的经验。
+                    </p>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa fa-star text-yellow-500"></i>
+                        <i class="fa fa-star text-yellow-500"></i>
+                        <i class="fa fa-star text-yellow-500"></i>
+                        <i class="fa fa-star text-yellow-500"></i>
+                        <i class="fa fa-star-half-o text-yellow-500"></i>
+                    </div>
+                    <a href="#" class="text-subColor font-medium hover:underline">查看评价</a>
+                </div>
+
+                <!-- 比赛2 -->
+                <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                    <h3 class="text-xl font-bold text-dark mb-4">全国大学生数学建模竞赛</h3>
+                    <p class="text-gray-600 mb-4">
+                        数学建模竞赛能够锻炼学生运用数学知识和计算机技术解决实际问题的能力，培养学生的创新思维和团队协作精神。许多学生通过参与该竞赛，提高了自己的综合素质。
+                    </p>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa fa-star text-yellow-500"></i>
+                        <i class="fa fa-star text-yellow-500"></i>
+                        <i class="fa fa-star text-yellow-500"></i>
+                        <i class="fa fa-star text-yellow-500"></i>
+                        <i class="fa fa-star-o text-yellow-500"></i>
+                    </div>
+                    <a href="#" class="text-subColor font-medium hover:underline">查看评价</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 学习论坛板块 -->
+    <section id="community" class="py-16 bg-gray-50 animate-slideIn">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-dark mb-4">学习论坛</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    在这里你可以与其他同学交流学习经验、分享学习心得，共同进步
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-dark">最新帖子</h3>
+                    <a href="#" class="text-subColor font-medium hover:underline">查看更多</a>
+                </div>
+
+                <div class="space-y-4">
+                    <!-- 帖子1 -->
+                    <div class="border-b border-gray-200 pb-4">
+                        <div class="flex items-center mb-2">
+                            <img src="https://picsum.photos/id/1005/40/40" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                            <span class="text-sm text-gray-600">王同学</span>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">Python学习经验分享</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2">
+                            分享一下我学习Python的经验，从基础语法到项目实战，希望对大家有帮助。
+                        </p>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fa fa-comment mr-1"></i> 12 评论
+                            <span class="mx-2">•</span>
+                            <i class="fa fa-thumbs-up mr-1"></i> 24 点赞
+                        </div>
+                    </div>
+
+                    <!-- 帖子2 -->
+                    <div class="border-b border-gray-200 pb-4">
+                        <div class="flex items-center mb-2">
+                            <img src="https://picsum.photos/id/1006/40/40" alt="用户头像" class="w-8 h-8 rounded-full mr-2">
+                            <span class="text-sm text-gray-600">李同学</span>
+                        </div>
+                        <h4 class="font-bold text-gray-800 mb-2">经济学专业就业方向探讨</h4>
+                        <p class="text-gray-600 text-sm line-clamp-2">
+                            大家来讨论一下经济学专业的就业方向，看看有哪些好的选择。
+                        </p>
+                        <div class="flex items-center text-sm text-gray-600">
+                            <i class="fa fa-comment mr-1"></i> 8 评论
+                            <span class="mx-2">•</span>
+                            <i class="fa fa-thumbs-up mr-1"></i> 18 点赞
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 专业相关教材板块 -->
+    <section id="textbooks" class="py-16 bg-mainBg animate-slideIn">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-light mb-4">专业相关教材</h2>
+                <p class="text-light/80 max-w-2xl mx-auto">
+                    为你推荐各专业的优质教材，帮助你更好地学习专业知识
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 教材1 -->
+                <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                    <img src="https://picsum.photos/id/200/200/300" alt="教材封面" class="w-full h-auto mb-4">
+                    <h3 class="text-xl font-bold text-dark mb-3">《Python编程：从入门到实践》</h3>
+                    <p class="text-gray-600 mb-4">
+                        这是一本适合初学者的Python教材，内容丰富，讲解详细，通过大量实例帮助读者快速掌握Python编程。
+                    </p>
+                    <a href="#" class="text-subColor font-medium hover:underline">查看详情</a>
+                </div>
+
+                <!-- 教材2 -->
+                <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                    <img src="https://picsum.photos/id/220/200/300" alt="教材封面" class="w-full h-auto mb-4">
+                    <h3 class="text-xl font-bold text-dark mb-3">《微观经济学》</h3>
+                    <p class="text-gray-600 mb-4">
+                        经典的微观经济学教材，系统地介绍了微观经济学的基本原理和方法，是经济学专业学生的必备书籍。
+                    </p>
+                    <a href="#" class="text-subColor font-medium hover:underline">查看详情</a>
+                </div>
+
+                <!-- 教材3 -->
+                <div class="bg-white rounded-xl shadow-md p-8 card-hover">
+                    <img src="https://picsum.photos/id/240/200/300" alt="教材封面" class="w-full h-auto mb-4">
+                    <h3 class="text-xl font-bold text-dark mb-3">《数据结构与算法分析》</h3>
+                    <p class="text-gray-600 mb-4">
+                        深入讲解数据结构和算法的经典教材，对于计算机专业学生提升编程能力有很大帮助。
+                    </p>
+                    <a href="#" class="text-subColor font-medium hover:underline">查看详情</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const swiper = new Swiper('.swiper-container', {
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            });
+
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+    <script src="./my2.js"></script>
+</body>
+
+</html>
